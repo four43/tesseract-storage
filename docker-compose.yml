@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      secrets:
+        - github_token
+      ssh:
+        - default
+    image: vaisala-xweather/${PROJECT_NAME:-devtools}:${DOCKER_TAG:-latest}
+    volumes:
+      - ./:/app
+      # Allow us to map in /tmp, so we can view tmp data created there, but not in CI where everything needs to be local
+      - "${BITBUCKET_CLONE_DIR:-/tmp}:/tmp"
+    entrypoint: ""
+
+secrets:
+  github_token:
+    environment: GITHUB_TOKEN

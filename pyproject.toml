@@ -1,0 +1,26 @@
+[project]
+name = "tesseract-storage"
+version = "0.0.1"
+authors = [
+    { name = "Seth Miller", email = "seth@four43.com" }
+]
+readme = "README.md"
+requires-python = ">=3.12"
+
+keywords = ["storage", "timeseries", "database"]
+
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+]
+
+[tool.setuptools.packages.find]
+include = ["tesseract*"]
+
+[tool.xwe_build]
+modules = [
+    "tesseract",
+    "tests",
+]
