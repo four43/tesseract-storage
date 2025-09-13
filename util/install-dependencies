@@ -49,17 +49,17 @@ fi
 
 if [[ -f "${requirements_path}" ]]; then
     echo "Installing dependencies for [${pip_install_groups}] (using ${requirements_path})..." >&2
-    pip install -vvv --no-deps -r "${requirements_path}"
+    pip install -vvv --root-user-action ignore --no-deps -r "${requirements_path}"
 else
     echo "Installing dependencies for [${pip_install_groups}] (using pyproject.toml)..." >&2
     if [[ -z "$pip_install_groups" ]]; then
-        pip install ./
+        pip install --root-user-action ignore  ./
     else
-        pip install "./[${pip_install_groups}]"
+        pip install --root-user-action ignore  "./[${pip_install_groups}]"
     fi
 
     # Ensure we don't save locally managed dependencies
-    pip freeze | grep -v '@ file:///' > "${requirements_path}"
+    pip freeze | { grep -v '@ file:///' || true; } > "${requirements_path}"
 
     # Copy this to a spot that isn't commonly mapped over so we can quickly fetch it back out and
     # into our repo during dev

@@ -97,6 +97,8 @@ This is a second output method where raw values seen in DynamoDB are aggregated 
 
 ## Technical Implementation Details
 
+Code should be written in Python, in the main module, `./tesseract`
+
 ### Data Schema Requirements
 
 - Support flexible schema evolution
@@ -105,6 +107,9 @@ This is a second output method where raw values seen in DynamoDB are aggregated 
 - Support multiple numeric data types (int, float, decimal) as well as strings
 
 ### AWS Lambda Functions Needed
+
+The AWS Lambda function should be rather small and simple where possible, using
+these common libraries and a standard AWS Python Runtime.
 
 1. **Ingestion Handler** - Processes incoming data streams
 2. **Archive Processor** - Timer-triggered buffer-to-parquet conversion

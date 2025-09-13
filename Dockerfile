@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM aerisweather/lambda:python3.12-custom
+FROM python:3.13-slim-trixie
 
 WORKDIR /app
 ARG INSTALL_DEV_DEPS=1
@@ -7,10 +7,7 @@ ARG INSTALL_DEV_DEPS=1
 COPY util ./util
 COPY pyproject.toml requirements.lock.* ./
 
-RUN --mount=type=ssh \
-    --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=secret,id=github_token,target=/run/secrets/github_token \
-    export GITHUB_TOKEN=$(cat /run/secrets/github_token); \
+RUN --mount=type=cache,target=/root/.cache/pip \
     if [ "$INSTALL_DEV_DEPS" = "1" ]; then \
         INSTALL_TYPE="dev"; \
     else \
@@ -22,4 +19,4 @@ COPY ./ ./
 
 # For our "Lambda-Everywhere" pattern
 ENTRYPOINT [ "/lambda-entrypoint.sh" ]
-CMD [ "{MODULE_NAME}.__main__.lambda_handler" ]
+CMD [ "tesseract.__main__.lambda_handler" ]
